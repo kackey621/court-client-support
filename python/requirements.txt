@@ -1,0 +1,18 @@
+# CourtStrategies 用 NDLOCR-Lite 実行環境
+#
+# ※ エンドユーザーがインストーラーを実行するだけで完結するよう、
+#    全ての依存はこの requirements.txt で pip から取得できるものに統一。
+#    poppler など OS パッケージが必要なものは使用しない。
+#
+# NDLOCR-Lite 本体は公式パッケージ名/Git URL に合わせて差し替えてください。
+# 例: git+https://github.com/ndl-lab/ndlocr-lite.git
+
+ndlocr-lite
+
+# PDF → 画像 (pypdfium2 は PDFium をバンドル済みで OS 依存無し)
+pypdfium2>=4.30.0
+
+pillow>=10.0.0
+
+# PyInstaller で単一ディレクトリバンドルを生成
+pyinstaller>=6.0.0

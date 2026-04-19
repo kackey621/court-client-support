@@ -1,0 +1,108 @@
+{
+  "name": "court-strategies",
+  "version": "1.0.0",
+  "description": "法律案件管理システム - CourtStrategies",
+  "main": "out/main/index.js",
+  "author": "CourtStrategies contributors",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "rebuild": "electron-builder install-app-deps",
+    "build:ndlocr": "bash scripts/build-ndlocr.sh",
+    "build:ndlocr:win": "pwsh -File scripts/build-ndlocr.ps1",
+    "package": "npm run build && electron-builder",
+    "package:mac": "npm run build:ndlocr && npm run build && electron-builder --mac",
+    "package:win": "npm run build:ndlocr:win && npm run build && electron-builder --win",
+    "package:linux": "PLATFORM_DIR=linux bash scripts/build-ndlocr.sh && npm run build && electron-builder --linux"
+  },
+  "build": {
+    "appId": "jp.court.strategies",
+    "productName": "CourtStrategies",
+    "artifactName": "CourtStrategies-${version}-${os}-${arch}.${ext}",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "out/**/*",
+      "!resources/ndlocr/*",
+      "!python/**/*",
+      "!scripts/**/*",
+      "!dist/**/*"
+    ],
+    "asarUnpack": [
+      "resources/ndlocr/**"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        { "target": "dmg", "arch": ["arm64", "x64"] },
+        { "target": "zip", "arch": ["arm64", "x64"] }
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "extraResources": [
+        { "from": "resources/ndlocr/mac", "to": "resources/ndlocr/mac" }
+      ]
+    },
+    "dmg": {
+      "writeUpdateInfo": false
+    },
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] }
+      ],
+      "extraResources": [
+        { "from": "resources/ndlocr/win", "to": "resources/ndlocr/win" }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    },
+    "linux": {
+      "target": [
+        { "target": "AppImage", "arch": ["x64"] },
+        { "target": "deb", "arch": ["x64"] }
+      ],
+      "category": "Office",
+      "extraResources": [
+        { "from": "resources/ndlocr/linux", "to": "resources/ndlocr/linux" }
+      ]
+    }
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^3.0.0",
+    "adm-zip": "^0.5.10",
+    "better-sqlite3": "^12.0.0",
+    "docx": "^8.5.0",
+    "fuse.js": "^7.0.0",
+    "lucide-react": "^0.468.0",
+    "mammoth": "^1.8.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "tesseract.js": "^5.1.1",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@types/adm-zip": "^0.5.5",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^20.17.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^2.3.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
+  }
+}
